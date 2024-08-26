@@ -88,6 +88,7 @@ function draw() {
 function drawMandelbrot(){
     let xi = 0;
     let yi = 0;
+    let f = frameCount;
     for(let y=0; y<Y*RES; y++){
         for(let x=0; x<X*RES; x++){
             let i = (y*X*RES+x)*2;
@@ -95,16 +96,16 @@ function drawMandelbrot(){
             yi = container[i+1];
             let b = 0;
 
-            if(Math.sqrt(Math.pow(xi, 2) + Math.pow(yi, 2))<=2){
+            if(diverge[i+1] == 0 && Math.sqrt(Math.pow(xi, 2) + Math.pow(yi, 2))<=2){
                 container[i] = Math.pow(xi, 2) - Math.pow(yi, 2) + coords[i];
                 container[i+1] = 2*xi*yi + coords[i+1];
             }
             else{
                 if(diverge[i+1] == 0){
                     diverge[i+1] = 1;
-                    diverge[i] = frameCount;
+                    diverge[i] = f;
                 }
-                b =  map(diverge[i], 0, frameCount, 0, 255);
+                b = map(diverge[i], 0, f, 0, 255);
             }
 
             let p = (y*X*RES+x)*4;
